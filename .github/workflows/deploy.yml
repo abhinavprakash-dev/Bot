@@ -1,0 +1,204 @@
+﻿name: Deploy KRYO to AWS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Debug GitHub OIDC context
+        shell: bash
+        run: |
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Ref: $GITHUB_REF"
+          echo "Event: $GITHUB_EVENT_NAME"
+          echo "Repository ID: $GITHUB_REPOSITORY_ID"
+          echo "Owner ID: $GITHUB_REPOSITORY_OWNER_ID"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Deploy bot on EC2
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          SSM_SCRIPT=$(cat <<'SCRIPT'
+          sudo -u ubuntu -H env HOME=/home/ubuntu USER=ubuntu LOGNAME=ubuntu bash -s <<'BASH'
+          set -euo pipefail
+
+          export HOME=/home/ubuntu
+          export USER=ubuntu
+          export LOGNAME=ubuntu
+
+          test -d "$HOME"
+          test -w "$HOME"
+          echo "Execution user: $(id -un)"
+          printf 'HOME=%s\n' "$HOME"
+
+          cd /home/ubuntu/bot
+          git config --global --add safe.directory /home/ubuntu/bot
+          echo "Git safe directory:"
+          git config --global --get-all safe.directory
+
+          mkdir -p /home/ubuntu/.ssh
+          chmod 700 /home/ubuntu/.ssh
+          chown ubuntu:ubuntu /home/ubuntu/.ssh
+          KNOWN=/home/ubuntu/.ssh/known_hosts
+          GITHUB_KEY="github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl"
+          if [ ! -f "$KNOWN" ]; then
+            touch "$KNOWN"
+            chown ubuntu:ubuntu "$KNOWN"
+            chmod 600 "$KNOWN"
+          fi
+          if ! grep -qF "github.com ssh-ed25519" "$KNOWN" 2>/dev/null; then
+            printf '%s\n' "$GITHUB_KEY" >> "$KNOWN"
+            chown ubuntu:ubuntu "$KNOWN"
+            chmod 600 "$KNOWN"
+            echo "Added GitHub Ed25519 host key"
+          else
+            echo "GitHub host key already present"
+          fi
+
+          GIT_SSH_COMMAND='ssh -o BatchMode=yes -o StrictHostKeyChecking=yes' git ls-remote origin HEAD
+
+          echo "=== git status ==="
+          git status --short
+
+          chown -R ubuntu:ubuntu /home/ubuntu/bot/.git
+
+          mkdir -p /home/ubuntu/deploy-backups
+          BACKUP_DIR=/home/ubuntu/deploy-backups/$(date +%Y%m%d_%H%M%S)
+          mkdir -p "$BACKUP_DIR"
+          for f in Dockerfile lavalink/Dockerfile lavalink/application.yml music_panel.py; do
+            if [ -f "$f" ]; then cp "$f" "$BACKUP_DIR/$(basename $f)"; fi
+          done
+          git diff -- Dockerfile lavalink/Dockerfile lavalink/application.yml music_panel.py > "$BACKUP_DIR/changes.diff" 2>/dev/null || true
+          echo "Backup dir: $BACKUP_DIR"
+
+          # Keep AWS-specific tracked overrides out of the way of the pull, then
+          # reapply them after updating. music_panel.py has local EC2 changes too.
+          git stash push -m "deploy-backup-$(date +%Y%m%d_%H%M%S)" -- Dockerfile lavalink/Dockerfile lavalink/application.yml music_panel.py || true
+
+          git fetch origin
+          git pull --ff-only origin main
+
+          echo "=== deployed commit ==="
+          git rev-parse HEAD
+
+          # Apply stashed AWS-specific changes
+          STASH_REF=""
+          if git stash list | grep -q "deploy-backup"; then
+            STASH_REF=$(git stash list | grep "deploy-backup" | head -1 | cut -d: -f1)
+            echo "Applying stash: $STASH_REF"
+            git stash show -p "$STASH_REF" > /tmp/aws-changes.patch 2>/dev/null || true
+            if [ -s /tmp/aws-changes.patch ]; then
+              git apply --3way /tmp/aws-changes.patch 2>/dev/null || true
+              # Auto-resolve known Dockerfile conflict: keep BOTH plugin COPY lines
+              if grep -q '<<<<<<<' lavalink/Dockerfile 2>/dev/null; then
+                sed -i '/^<<<<<<< /d; /^=======/d; /^>>>>>>> /d' lavalink/Dockerfile
+                echo "Resolved conflict markers in Dockerfile"
+              fi
+              echo "AWS changes applied"
+            fi
+          fi
+
+          # SAFETY GATE: Check for unresolved conflicts
+          echo "=== conflict check ==="
+          git diff --check && echo "No whitespace/conflict errors" || { echo "ERROR: git diff --check failed"; exit 1; }
+          CONFLICT_FILES=$(git diff --name-only --diff-filter=U 2>/dev/null || true)
+          if [ -n "$CONFLICT_FILES" ]; then
+            echo "ERROR: Unresolved conflicts in: $CONFLICT_FILES"
+            exit 1
+          fi
+          if grep -rn '<<<<<<<' Dockerfile lavalink/Dockerfile lavalink/application.yml 2>/dev/null; then
+            echo "ERROR: Conflict markers found in files"
+            exit 1
+          fi
+          echo "No conflict markers found"
+
+          # Verify key config elements
+          grep -q "libsodium23" Dockerfile && echo "libsodium23 present" || echo "WARNING: libsodium23 missing"
+          grep -q "def resolve_panel_channel" music_panel.py && echo "resolve_panel_channel present"
+          grep -q "soundy" lavalink/application.yml && echo "soundy config present"
+          grep -q "soundcloud: false" lavalink/application.yml && echo "soundcloud disabled"
+          grep -q "youtube-plugin-custom.jar" lavalink/Dockerfile && echo "custom youtube jar COPY present"
+          python3 -m py_compile music_panel.py && echo "syntax OK"
+
+          # Check .dockerignore
+          if [ -f .dockerignore ]; then
+            echo "=== .dockerignore ==="
+            cat .dockerignore
+          fi
+
+          # Verify plugin JARs on host
+          ls -la lavalink/youtube-plugin-custom.jar 2>/dev/null && echo "youtube-plugin-custom.jar found on host" || echo "WARNING: youtube-plugin-custom.jar not found on host"
+
+          # Build Lavalink only
+          docker compose -f compose.yaml -f compose.fix-youtube.yaml build lavalink
+
+          # Restart only Lavalink
+          docker compose -f compose.yaml -f compose.fix-youtube.yaml up -d --no-deps lavalink
+
+          # Rebuild and restart the bot so application code and bundled assets
+          # from the pushed commit are deployed as well.
+          docker compose -f compose.yaml -f compose.fix-youtube.yaml build bot
+          docker compose -f compose.yaml -f compose.fix-youtube.yaml up -d --no-deps bot
+
+          # Wait for Lavalink startup
+          sleep 15
+          echo "=== Lavalink startup logs ==="
+          docker logs kryo-lavalink 2>&1 | tail -40
+
+          echo "=== Plugin verification ==="
+          docker logs kryo-lavalink 2>&1 | grep -i "soundy\|youtube-plugin\|lavasrc\|oauth\|remotePot\|remoteCipher" | tail -15
+
+          # Verify kryo-bot is running with the new image
+          echo "=== Bot container status ==="
+          docker ps --filter name=kryo-bot --format "{{.Names}} {{.Status}}"
+
+          # Verify PyNaCl inside kryo-bot
+          docker exec kryo-bot python -c 'import nacl; print("PyNaCl installed:", nacl.__version__)'
+
+          BASH
+          SCRIPT
+          )
+
+          jq -n --arg script "$SSM_SCRIPT" '{commands: [$script]}' > ssm-parameters.json
+
+          COMMAND_ID=$(aws ssm send-command \
+            --instance-ids i-0521da45669e546d1 \
+            --document-name AWS-RunShellScript \
+            --comment "Deploy KRYO bot from GitHub" \
+            --parameters file://ssm-parameters.json \
+            --query 'Command.CommandId' \
+            --output text)
+
+          echo "SSM Command ID: $COMMAND_ID"
+
+          if ! aws ssm wait command-executed \
+            --command-id "$COMMAND_ID" \
+            --instance-id i-0521da45669e546d1; then
+            aws ssm get-command-invocation \
+              --command-id "$COMMAND_ID" \
+              --instance-id i-0521da45669e546d1
+            exit 1
+          fi
+
+          aws ssm get-command-invocation \
+            --command-id "$COMMAND_ID" \
+            --instance-id i-0521da45669e546d1 \
+            --query 'Status' \
+            --output text

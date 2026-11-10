@@ -1,0 +1,26 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.env
+*.log
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
+Lavalink.jar
+bot_err.log
+bot_errors.log
+bot_out.log
+railway_deploy.py
+.git
+.gitignore
+README.md
+data.json
+apply prime patch.py
+carmeet_bot.py
+redeploy_both.py
+redeploy_lavalink.py
+redeploy_lavalink.py
+bot_keepalive.py

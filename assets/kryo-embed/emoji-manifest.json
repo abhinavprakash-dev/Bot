@@ -1,0 +1,154 @@
+{
+  "note": "Upload each GIF as a custom animated emoji. Use <a:name:ID> after upload. Fallback is used if upload fails.",
+  "emojis": [
+    {
+      "key": "LOCK",
+      "name": "kryo_lock",
+      "file": "lock_orbit_purple.gif",
+      "size": "128x128",
+      "loop_ms": 1200,
+      "fallback": "🔒"
+    },
+    {
+      "key": "CHECK",
+      "name": "kryo_check",
+      "file": "check_sparkle_purple.gif",
+      "size": "128x128",
+      "loop_ms": 1200,
+      "fallback": "✅"
+    },
+    {
+      "key": "GAVEL",
+      "name": "kryo_gavel",
+      "file": "gavel_strike_red.gif",
+      "size": "128x128",
+      "loop_ms": 1200,
+      "fallback": "🔨"
+    },
+    {
+      "key": "UNLOCK",
+      "name": "kryo_unlock",
+      "file": "unlock_green.gif",
+      "size": "128x128",
+      "loop_ms": 1200,
+      "fallback": "🔓"
+    },
+    {
+      "key": "PHOTOSCAN",
+      "name": "kryo_photoscan",
+      "file": "photo_scan_purple.gif",
+      "size": "128x128",
+      "loop_ms": 1200,
+      "fallback": "🖼️"
+    },
+    {
+      "key": "CAPS",
+      "name": "kryo_caps",
+      "file": "caps_shrink_fuchsia.gif",
+      "size": "128x128",
+      "loop_ms": 1200,
+      "fallback": "🔠"
+    },
+    {
+      "key": "GLOBE",
+      "name": "kryo_globe",
+      "file": "globe_orbit_purple.gif",
+      "size": "128x128",
+      "loop_ms": 1200,
+      "fallback": "🌐"
+    },
+    {
+      "key": "ARROW_RED",
+      "name": "kryo_arrow_red",
+      "file": "arrow_red.gif",
+      "size": "128x128",
+      "loop_ms": 1200,
+      "fallback": "➤"
+    },
+    {
+      "key": "ARROW_GREEN",
+      "name": "kryo_arrow_green",
+      "file": "arrow_green.gif",
+      "size": "128x128",
+      "loop_ms": 1200,
+      "fallback": "➤"
+    },
+    {
+      "key": "ARROW_PURPLE",
+      "name": "kryo_arrow_purple",
+      "file": "arrow_purple.gif",
+      "size": "128x128",
+      "loop_ms": 1200,
+      "fallback": "➤"
+    },
+    {
+      "key": "CHEVRONS_RED",
+      "name": "kryo_chevrons_red",
+      "file": "chevrons_red.gif",
+      "size": "128x128",
+      "loop_ms": 1200,
+      "fallback": "›››"
+    },
+    {
+      "key": "CHEVRONS_GREEN",
+      "name": "kryo_chevrons_green",
+      "file": "chevrons_green.gif",
+      "size": "128x128",
+      "loop_ms": 1200,
+      "fallback": "›››"
+    },
+    {
+      "key": "CHEVRONS_PURPLE",
+      "name": "kryo_chevrons_purple",
+      "file": "chevrons_purple.gif",
+      "size": "128x128",
+      "loop_ms": 1200,
+      "fallback": "›››"
+    },
+    {
+      "key": "LINKOFF",
+      "name": "kryo_linkoff",
+      "file": "link_off_pulse.gif",
+      "size": "128x128",
+      "loop_ms": 1200,
+      "fallback": "🔗"
+    },
+    {
+      "key": "ARROW",
+      "name": "kryo_arrow",
+      "file": "arrow_anim.gif",
+      "size": "128x128",
+      "loop_ms": 1200,
+      "fallback": "➤"
+    },
+    {
+      "key": "CHEVRONS",
+      "name": "kryo_chevrons",
+      "file": "chevrons_anim.gif",
+      "size": "128x128",
+      "loop_ms": 1200,
+      "fallback": "›››"
+    },
+    {
+      "key": "SHIELD",
+      "name": "kryo_shield",
+      "file": "shield_pulse.gif",
+      "size": "128x128",
+      "loop_ms": 1200,
+      "fallback": "🛡️"
+    }
+  ],
+  "colors": {
+    "red": "#F23F43",
+    "gold": "#F0B232",
+    "card": "#2B2D31",
+    "muted": "#949BA4"
+  },
+  "warning_levels": [
+    { "level": 1, "action": "warn", "block": "🟧" },
+    { "level": 2, "action": "timeout_10m", "block": "🟧" },
+    { "level": 3, "action": "kick", "block": "🟧" },
+    { "level": 4, "action": "ban", "block": "🟥" }
+  ],
+  "empty_block": "⬛"
+}

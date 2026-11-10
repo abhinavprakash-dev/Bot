@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KRYO PRIME whitelist embeds reference</title>
+<!-- Reference only. Discord cannot run CSS. The motion in a real embed comes from the two GIF emojis
+     (lock_orbit_purple.gif and check_sparkle_purple.gif). Shimmer, progress bar and slide-in are preview only. -->
+<style>
+  body{margin:0;background:#1e1f22;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;padding:16px}
+  @keyframes orbit{to{transform:rotate(360deg)}}
+  @keyframes shake{0%,40%,100%{transform:rotate(0)}48%{transform:rotate(-16deg)}56%{transform:rotate(14deg)}64%{transform:rotate(-10deg)}72%{transform:rotate(7deg)}80%{transform:rotate(0)}}
+  @keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(139,92,246,.55)}50%{box-shadow:0 0 0 7px rgba(139,92,246,0)}}
+  @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+  @keyframes scan{0%{left:-35%}100%{left:100%}}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+  @keyframes draw{0%,8%{stroke-dashoffset:26}35%,80%{stroke-dashoffset:0}100%{stroke-dashoffset:26}}
+  @keyframes pop{0%,6%{transform:scale(.6)}20%{transform:scale(1.18)}30%,80%{transform:scale(1)}100%{transform:scale(.6)}}
+  @keyframes ripple{0%{box-shadow:0 0 0 0 rgba(168,85,247,.7)}60%,100%{box-shadow:0 0 0 12px rgba(168,85,247,0)}}
+  @keyframes fillbar{0%,6%{width:0}40%,85%{width:100%}100%{width:100%}}
+  @keyframes slidein{0%,10%{opacity:0;transform:translateX(-8px)}28%,85%{opacity:1;transform:translateX(0)}100%{opacity:0;transform:translateX(-8px)}}
+  .t{display:inline-block;padding:0 5px;border-radius:3px;background:#3c4270;color:#c9cdfb}
+  .tile{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
+  .sh{background:linear-gradient(90deg,#f2f3f5 0%,#f2f3f5 35%,#c4a5ff 50%,#f2f3f5 65%,#f2f3f5 100%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:shimmer 2.6s linear infinite}
+  @media (prefers-reduced-motion:reduce){.a,.a *,.sh{animation:none!important}.sh{-webkit-text-fill-color:#f2f3f5}}
+</style>
+</head>
+<body>
+<div style="max-width:420px">
+  <div style="background:#2b2d31;border-left:4px solid #8b5cf6;border-radius:4px;padding:10px 12px;position:relative;overflow:hidden">
+    <div style="position:absolute;top:0;left:0;right:0;height:2px;overflow:hidden"><div class="a" style="position:absolute;top:0;bottom:0;width:35%;background:#a78bfa;animation:scan 1.8s linear infinite"></div></div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="tile a" style="background:#2e2150;color:#c4a5ff;font-size:18px;animation:glow 1.6s ease-out infinite">
+        <div class="a" style="position:absolute;inset:-4px;border-radius:12px;border:1.5px dashed #8b5cf6;animation:orbit 5s linear infinite"></div>
+        <span class="a" style="display:inline-block;transform-origin:50% 20%;animation:shake 2.2s ease-in-out infinite">&#128274;</span>
+      </div>
+      <div style="line-height:1.25">
+        <div class="sh" style="font-weight:500;font-size:15px">Not whitelisted</div>
+        <div style="display:flex;align-items:center;gap:5px;color:#c4a5ff;font-size:12px"><span class="a" style="width:6px;height:6px;border-radius:50%;background:#a78bfa;display:inline-block;animation:blink 1s ease-in-out infinite"></span>Access denied</div>
+      </div>
+    </div>
+    <div style="font-size:14px;color:#dbdee1;line-height:1.4;margin-top:8px"><span class="t">@nock nock</span> is not whitelisted in <span style="font-weight:500;color:#f2f3f5">All protections</span>.</div>
+    <div style="font-size:11px;color:#949ba4;margin-top:8px">KRYO &middot; Security and Music &middot; Today at 01:53</div>
+  </div>
+
+  <div style="background:#2b2d31;border-left:4px solid #a855f7;border-radius:4px;padding:10px 12px;margin-top:8px">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="tile a" style="background:#3a1f5c;animation:ripple 2.8s ease-out infinite">
+        <svg class="a" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d8b4fe" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="animation:pop 2.8s ease-out infinite"><path class="a" d="M5 12.5l4.5 4.5L19 7.5" stroke-dasharray="26" stroke-dashoffset="26" style="animation:draw 2.8s ease-in-out infinite"/></svg>
+      </div>
+      <div style="line-height:1.25;flex:1">
+        <div class="sh" style="font-weight:500;font-size:15px">Whitelist updated</div>
+        <div style="height:3px;border-radius:2px;background:#3f4147;margin-top:6px;overflow:hidden"><div class="a" style="height:3px;background:linear-gradient(90deg,#7c3aed,#c084fc);border-radius:2px;animation:fillbar 2.8s ease-in-out infinite"></div></div>
+      </div>
+    </div>
+    <div style="font-size:14px;color:#dbdee1;line-height:1.4;margin-top:8px"><span class="t">@nock nock</span> was added to the whitelist for <span style="font-weight:500;color:#f2f3f5">All protections</span>.</div>
+    <div class="a" style="display:flex;gap:8px;margin-top:8px;animation:slidein 2.8s ease-out infinite">
+      <div style="width:3px;border-radius:2px;background:#8b5cf6;flex-shrink:0"></div>
+      <div style="font-size:13px;color:#949ba4;font-weight:500;line-height:1.4">Whitelisted members skip the chat filters of that category, but they are still punished if they try to nuke the server.</div>
+    </div>
+    <div style="font-size:11px;color:#949ba4;margin-top:8px">KRYO &middot; Security and Music &middot; Today at 01:54</div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KRYO PRIME moderation embeds reference</title>
+<!-- Reference only. This is how the embeds look on Discord: only the custom emojis (GIF) move.
+     The motion of each emoji here is a CSS imitation of the matching GIF in this folder. -->
+<style>
+  body{margin:0;background:#313338;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;padding:16px}
+  @keyframes strike{0%,30%{transform:rotate(-40deg)}42%{transform:rotate(18deg)}50%{transform:rotate(6deg)}58%,100%{transform:rotate(-40deg)}}
+  @keyframes ring{0%,38%{transform:scale(.3);opacity:0}42%{opacity:.95}100%{transform:scale(1);opacity:0}}
+  @keyframes unlock{0%,25%{transform:translateY(0) rotate(0)}40%{transform:translateY(-1.5px) rotate(-14deg)}55%,85%{transform:translateY(-1px) rotate(-10deg)}100%{transform:translateY(0) rotate(0)}}
+  @keyframes scanv{0%{top:-10%}100%{top:105%}}
+  @keyframes upA{0%,22%{opacity:1;transform:scale(1)}38%{opacity:0;transform:scale(.55)}86%{opacity:0}98%,100%{opacity:1;transform:scale(1)}}
+  @keyframes lowA{0%,26%{opacity:0;transform:scale(1.7)}42%,84%{opacity:1;transform:scale(1)}96%,100%{opacity:0;transform:scale(1.7)}}
+  @keyframes orbit{to{transform:rotate(360deg)}}
+  @keyframes nudge{0%,100%{transform:translateX(-3px);opacity:.4}50%{transform:translateX(3px);opacity:1}}
+  @keyframes wave{0%,100%{opacity:.2}50%{opacity:1}}
+  .em{display:inline-flex;width:22px;height:22px;align-items:center;justify-content:center;position:relative;overflow:hidden;border-radius:6px;flex-shrink:0}
+  .ring{position:absolute;inset:0;border-radius:6px;border:1.5px solid currentColor}
+  .ar{font-size:14px;font-weight:700;line-height:1;display:inline-block;animation:nudge 1.2s ease-in-out infinite}
+  .ch{font-size:15px;font-weight:700;line-height:1;display:inline-block;animation:wave 1.2s ease-in-out infinite}
+  .emb{background:#2b2d31;border-radius:4px;padding:8px 16px 12px 12px;max-width:440px;box-sizing:border-box;border-left:4px solid;margin:6px 0 10px}
+  .tt{font-size:16px;font-weight:600;color:#f2f3f5;line-height:1.375;margin:0 0 4px;display:flex;align-items:center;gap:6px}
+  .d{font-size:14px;line-height:1.375;color:#dbdee1}
+  .d b{color:#f2f3f5;font-weight:600}
+  .sub{font-size:12px;color:#949ba4;line-height:1.3;margin-bottom:2px}
+  .row{display:flex;align-items:center;gap:6px}
+  .q{display:flex;align-items:center;gap:6px;margin-top:6px;border-left:4px solid #4e5058;padding-left:8px}
+  .t{display:inline-block;padding:0 4px;border-radius:3px;background:#3c4270;color:#c9cdfb}
+  .ft{font-size:12px;color:#949ba4;margin-top:8px;font-weight:500}
+  @media (prefers-reduced-motion:reduce){.em *,.ar,.ch{animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="emb" style="border-left-color:#f23f43">
+  <div class="tt"><span class="em" style="background:#4a2023;color:#f23f43"><span class="ring" style="animation:ring 2.4s ease-out infinite"></span><span style="font-size:14px;display:inline-block;transform-origin:85% 85%;animation:strike 2.4s ease-in-out infinite">&#128296;</span></span>Member banned</div>
+  <div class="d">
+    <div class="sub">Permanently removed</div>
+    <b>testingg903</b> was banned.
+    <div class="row" style="margin-top:4px"><span class="em" style="color:#f23f43"><span class="ar">&#10148;</span></span><span><b>Reason</b> &mdash; No reason given</span></div>
+    <div class="row"><span class="em" style="color:#f23f43"><span class="ar" style="animation-delay:.2s">&#10148;</span></span><span><b>Action</b> &mdash; Banned from server</span></div>
+    <div class="q"><span class="em" style="color:#f23f43;width:30px"><span class="ch">&rsaquo;</span><span class="ch" style="animation-delay:.15s">&rsaquo;</span><span class="ch" style="animation-delay:.3s">&rsaquo;</span></span>Ban enforced</div>
+  </div>
+  <div class="ft">KRYO &bull; Security &amp; Music | Today at 13:59</div>
+</div>
+
+<div class="emb" style="border-left-color:#23a55a">
+  <div class="tt"><span class="em" style="background:#1b3b29;color:#3ddc84"><span class="ring" style="animation:ring 2.4s ease-out infinite"></span><span style="font-size:14px;display:inline-block;transform-origin:50% 80%;animation:unlock 2.4s ease-in-out infinite">&#128275;</span></span>Member unbanned</div>
+  <div class="d">
+    <div class="sub">Access restored</div>
+    <b>testingg903</b> was unbanned.
+    <div class="row" style="margin-top:4px"><span class="em" style="color:#3ddc84"><span class="ar">&#10148;</span></span><span><b>Action</b> &mdash; Ban lifted</span></div>
+    <div class="row"><span class="em" style="color:#3ddc84"><span class="ar" style="animation-delay:.2s">&#10148;</span></span><span><b>Status</b> &mdash; Can rejoin the server</span></div>
+    <div class="q"><span class="em" style="color:#3ddc84;width:30px"><span class="ch">&rsaquo;</span><span class="ch" style="animation-delay:.15s">&rsaquo;</span><span class="ch" style="animation-delay:.3s">&rsaquo;</span></span>Ban removed</div>
+  </div>
+  <div class="ft">KRYO &bull; Security &amp; Music | Today at 13:59</div>
+</div>
+
+<div class="emb" style="border-left-color:#7c3aed">
+  <div class="tt"><span class="em" style="background:#2e2150;color:#c4a5ff"><span style="position:absolute;left:0;right:0;height:2px;background:#c4a5ff;animation:scanv 1.6s linear infinite"></span><span style="font-size:13px">&#128444;</span></span>Promotional image removed</div>
+  <div class="d">
+    <div class="sub">Scan complete</div>
+    <span class="t">@user</span>, gambling/casino promotional images are not allowed here.
+    <div class="row" style="margin-top:4px"><span class="em" style="color:#a78bfa"><span class="ar">&#10148;</span></span><span><b>User</b> &mdash; <span class="t">@user</span></span></div>
+    <div class="row"><span class="em" style="color:#a78bfa"><span class="ar" style="animation-delay:.2s">&#10148;</span></span><span><b>Found</b> &mdash; Gambling or casino promo</span></div>
+    <div class="row"><span class="em" style="color:#a78bfa"><span class="ar" style="animation-delay:.4s">&#10148;</span></span><span><b>Action</b> &mdash; Image removed</span></div>
+    <div class="q"><span class="em" style="color:#c4a5ff;width:30px"><span class="ch">&rsaquo;</span><span class="ch" style="animation-delay:.15s">&rsaquo;</span><span class="ch" style="animation-delay:.3s">&rsaquo;</span></span>Promotions are blocked in this server.</div>
+  </div>
+  <div class="ft">KRYO &bull; Security &amp; Music | Today at 13:59</div>
+</div>
+
+<div class="emb" style="border-left-color:#c026d3">
+  <div class="tt"><span class="em" style="background:#4a1d52;color:#f0abfc"><span class="a1" style="position:absolute;font-size:14px;font-weight:700;animation:upA 2.8s ease-in-out infinite">A</span><span style="position:absolute;font-size:14px;font-weight:700;animation:lowA 2.8s ease-in-out infinite">a</span></span>Too many capital letters</div>
+  <div class="d">
+    <div class="sub">Caps filter active</div>
+    <span class="t">@IGN : T3M1NAT3R_</span>, please do not write in all caps.
+    <div class="row" style="margin-top:4px"><span class="em" style="color:#a78bfa"><span class="ar">&#10148;</span></span><span><b>User</b> &mdash; <span class="t">@IGN : T3M1NAT3R_</span></span></div>
+    <div class="row"><span class="em" style="color:#a78bfa"><span class="ar" style="animation-delay:.2s">&#10148;</span></span><span><b>Found</b> &mdash; All-caps message</span></div>
+    <div class="row"><span class="em" style="color:#a78bfa"><span class="ar" style="animation-delay:.4s">&#10148;</span></span><span><b>Tip</b> &mdash; Turn off Caps Lock</span></div>
+    <div class="q"><span class="em" style="color:#c4a5ff;width:30px"><span class="ch">&rsaquo;</span><span class="ch" style="animation-delay:.15s">&rsaquo;</span><span class="ch" style="animation-delay:.3s">&rsaquo;</span></span>Please type in normal case.</div>
+  </div>
+  <div class="ft">KRYO &bull; Security &amp; Music | Today at 14:07</div>
+</div>
+
+<div class="emb" style="border-left-color:#a855f7">
+  <div class="tt"><span class="em" style="background:#3a1f5c;color:#e9d5ff"><span style="position:absolute;inset:0;animation:orbit 3s linear infinite"><span style="position:absolute;top:1px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:#d8b4fe"></span></span><span style="font-size:13px">&#127760;</span></span>Links are not allowed</div>
+  <div class="d">
+    <div class="sub">Link filter active</div>
+    <span class="t">@GUDDU</span>, posting links is disabled in this server.
+    <div class="row" style="margin-top:4px"><span class="em" style="color:#a78bfa"><span class="ar">&#10148;</span></span><span><b>User</b> &mdash; <span class="t">@GUDDU</span></span></div>
+    <div class="row"><span class="em" style="color:#a78bfa"><span class="ar" style="animation-delay:.2s">&#10148;</span></span><span><b>Found</b> &mdash; Link in message</span></div>
+    <div class="row"><span class="em" style="color:#a78bfa"><span class="ar" style="animation-delay:.4s">&#10148;</span></span><span><b>Action</b> &mdash; Message removed</span></div>
+    <div class="q"><span class="em" style="color:#c4a5ff;width:30px"><span class="ch">&rsaquo;</span><span class="ch" style="animation-delay:.15s">&rsaquo;</span><span class="ch" style="animation-delay:.3s">&rsaquo;</span></span>Need to share something? Ask a moderator.</div>
+  </div>
+  <div class="ft">KRYO &bull; Security &amp; Music | Today at 13:59</div>
+</div>
+
+</body>
+</html>

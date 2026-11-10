@@ -1,0 +1,23 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[services.lavalink]
+source = "lavalink"
+[services.lavalink.build]
+builder = "DOCKERFILE"
+dockerfilePath = "lavalink/Dockerfile"
+[services.lavalink.deploy]
+startCommand = "sh /opt/Lavalink/start-services.sh"
+healthcheckPath = "/v4/info"
+healthcheckTimeout = 300
+restartPolicyType = "ON_FAILURE"
+
+[services.bot]
+source = "."
+[services.bot.build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+[services.bot.deploy]
+startCommand = "python main.py"
+restartPolicyType = "ON_FAILURE"

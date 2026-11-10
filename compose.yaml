@@ -1,0 +1,46 @@
+services:
+  lavalink:
+    build:
+      context: ./lavalink
+      dockerfile: Dockerfile
+    container_name: kryo-lavalink
+    restart: unless-stopped
+    environment:
+      LAVALINK_SERVER_PASSWORD: ${LAVALINK_SERVER_PASSWORD}
+      PLUGINS_YOUTUBE_OAUTH_REFRESHTOKEN: "${YOUTUBE_OAUTH_REFRESH_TOKEN}"
+    volumes:
+      - ./lavalink/application.yml:/opt/Lavalink/application.yml:ro
+    expose:
+      - "2333"
+    networks:
+      - kryo-network
+
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kryo-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      LAVALINK_URI: http://lavalink:2333
+      LAVALINK_PASSWORD: ${LAVALINK_SERVER_PASSWORD}
+      DATABASE_PATH: /app/data/data.sqlite3
+    volumes:
+      - kryo_bot_data:/app/data
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      - lavalink
+    networks:
+      - kryo-network
+
+networks:
+  kryo-network:
+    driver: bridge
+
+volumes:
+  kryo_bot_data:
+    external: true
+    name: kryo_bot_data

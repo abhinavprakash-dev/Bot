@@ -1,0 +1,77 @@
+server:
+  port: 2333
+  address: 0.0.0.0
+  password: "${LAVALINK_SERVER_PASSWORD}"
+
+lavalink:
+  plugins:
+    - dependency: "dev.lavalink.youtube:youtube-plugin:f45bbb7aebfcbc1c553769e04af6cd43afa8b7c3"
+      repository: "https://maven.lavalink.dev/snapshots"
+      snapshot: true
+  server:
+    bufferDurationMs: 3000
+    frameBufferDurationMs: 4000
+    opusEncodingQuality: 8
+    sources:
+      youtube: false
+      bandcamp: true
+      soundcloud: false
+      twitch: true
+      vimeo: true
+      nico: true
+      http: true
+      local: false
+    youtubeSearchEnabled: true
+    soundcloudSearchEnabled: true
+
+plugins:
+  soundy:
+    enabled: true
+  youtube:
+    enabled: true
+    allowSearch: true
+    allowDirectVideoIds: true
+    allowDirectPlaylistIds: true
+    clients:
+      - TV
+      - WEB
+      - WEBEMBEDDED
+      - ANDROID_MUSIC
+      - MWEB
+      - IOS
+    oauth:
+      enabled: true
+      refreshToken: "${YOUTUBE_OAUTH_REFRESH_TOKEN:}"
+    pot:
+      token: "${YOUTUBE_PO_TOKEN:}"
+      visitorData: "${YOUTUBE_VISITOR_DATA:}"
+    remoteCipher:
+      url: "https://cipher.kikkia.dev/"
+      userAgent: "KRYO-Lavalink"
+  lavasrc:
+    providers:
+      - "scsearch:%QUERY%"
+      - "dzsearch:%QUERY%"
+      - "amsearch:%QUERY%"
+    sources:
+      spotify: true
+      apple-music: true
+      spotify-recommendations: true
+      soundcloud: true
+      bandcamp: true
+    spotify:
+      clientId: "${SPOTIFY_CLIENT_ID:}"
+      clientSecret: "${SPOTIFY_CLIENT_SECRET:}"
+      countryCode: "US"
+      playlistLoadLimit: 50
+      albumLoadLimit: 50
+    apple-music:
+      countryCode: "US"
+    soundcloud:
+      clientId: ""
+    bandcamp:
+      enabled: true
+
+logging:
+  logback:
+    loggers: {}

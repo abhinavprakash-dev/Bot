@@ -1,0 +1,12 @@
+{
+  "$schema": "https://railway.com/railway.schema.json",
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "Dockerfile"
+  },
+  "deploy": {
+    "region": "asia-southeast1-eqsg3a",
+    "startCommand": "sh /opt/Lavalink/start-services.sh",
+    "restartPolicyType": "ON_FAILURE"
+  }
+}

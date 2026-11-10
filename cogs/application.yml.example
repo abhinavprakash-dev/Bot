@@ -1,0 +1,56 @@
+# Example Lavalink v4 config for YouTube + Spotify (LavaSrc) + SoundCloud fallback.
+# Merge the parts you need into YOUR existing application.yml (do not replace blindly).
+# Replace LATEST_VERSION with the newest release number from each plugin's GitHub releases page:
+#   https://github.com/lavalink-devs/youtube-source/releases
+#   https://github.com/topi314/LavaSrc/releases
+
+server:
+  port: 2333
+  address: 0.0.0.0
+
+lavalink:
+  plugins:
+    - dependency: "dev.lavalink.youtube:youtube-plugin:LATEST_VERSION"
+      snapshot: false
+    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:LATEST_VERSION"
+      snapshot: false
+  server:
+    password: "CHANGE_THIS_TO_A_LONG_RANDOM_PASSWORD"   # same value as LAVALINK_PASSWORD in the bot
+    sources:
+      youtube: false        # the plugin replaces the built-in YouTube source
+      soundcloud: true      # used by the bot as fallback when a track fails
+      http: true
+    playerUpdateInterval: 5
+    trackStuckThresholdMs: 10000
+
+plugins:
+  youtube:
+    enabled: true
+    allowSearch: true
+    allowDirectVideoIds: true
+    allowDirectPlaylistIds: true
+    # YouTube blocks datacenter IPs (Railway, DigitalOcean, Fly, ...) with
+    # "Sign in to confirm you're not a bot", so tracks fail to load. OAuth fixes
+    # it: the first start prints a device-code URL in the node log, sign in with
+    # a BURNER Google account, then paste the printed refreshToken below.
+    oauth:
+      enabled: true
+      refreshToken: ""     # filled in automatically, or paste it to skip the flow
+    # poToken is the alternative when OAuth is not possible.
+    # pot:
+    #   token: "your po_token"
+    #   visitorData: "your visitor_data"
+  lavasrc:
+    providers:                          # how Spotify tracks are found for playback
+      - "ytsearch:\"%ISRC%\""
+      - "ytsearch:%QUERY%"
+      - "scsearch:%QUERY%"
+    sources:
+      spotify: true
+      youtube: false
+    spotify:
+      clientId: "YOUR_SPOTIFY_CLIENT_ID"        # from developer.spotify.com/dashboard
+      clientSecret: "YOUR_SPOTIFY_CLIENT_SECRET"
+      countryCode: "IN"
+      playlistLoadLimit: 6              # 6 x 100 = up to 600 tracks per playlist link
+      albumLoadLimit: 6

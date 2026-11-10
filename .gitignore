@@ -1,0 +1,17 @@
+.env
+*.log
+__pycache__/
+*.py[cod]
+.venv*/
+data.sqlite3
+
+# Local secrets, backups and temporary patch files
+.env*
+!.env.example
+backups/
+*.backup*
+*.bak*
+*.before-*
+install_kryo_spotify_connect.py
+kryo-*.zip
+kryo-*.tar.gz
